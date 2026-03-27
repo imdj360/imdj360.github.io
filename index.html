@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,341 +7,168 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 <style>
-  :root {
-    --bg: #0e0f11;
-    --surface: #16181c;
-    --surface2: #1e2026;
-    --border: #2a2d35;
-    --border2: #353840;
-    --text: #e8eaf0;
-    --muted: #6b7280;
-    --muted2: #9ca3af;
-    --accent: #4f8ef7;
-    --accent-dim: rgba(79,142,247,0.12);
-    --accent-dim2: rgba(79,142,247,0.06);
-    --tag-bg: #1e2330;
-    --tag-text: #7ba8f5;
-    --mono: 'DM Mono', monospace;
-    --sans: 'DM Sans', sans-serif;
-    --radius: 8px;
-    --radius-lg: 12px;
-  }
+/* ── Themes ── */
+:root {
+  --mono: 'DM Mono', monospace;
+  --sans: 'DM Sans', sans-serif;
+  --radius: 8px;
+  --transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+[data-theme="dark"] {
+  --bg:         #0e0f11;
+  --surface:    #16181c;
+  --surface2:   #1e2026;
+  --border:     #2a2d35;
+  --border2:    #353840;
+  --text:       #e8eaf0;
+  --muted:      #6b7280;
+  --muted2:     #9ca3af;
+  --accent:     #4f8ef7;
+  --accent-dim: rgba(79,142,247,0.12);
+  --accent-dim2:rgba(79,142,247,0.06);
+  --tag-bg:     #1e2330;
+  --tag-text:   #7ba8f5;
+  --tag-border: rgba(79,142,247,0.2);
+  --theme-icon: "☀";
+}
 
-  html { scroll-behavior: smooth; }
+[data-theme="light"] {
+  --bg:         #f8f9fb;
+  --surface:    #ffffff;
+  --surface2:   #f1f3f6;
+  --border:     #dde1e9;
+  --border2:    #c8cdd8;
+  --text:       #111318;
+  --muted:      #8a919e;
+  --muted2:     #4b5260;
+  --accent:     #1a66f0;
+  --accent-dim: rgba(26,102,240,0.08);
+  --accent-dim2:rgba(26,102,240,0.04);
+  --tag-bg:     #e8eef9;
+  --tag-text:   #1a55c4;
+  --tag-border: rgba(26,102,240,0.2);
+  --theme-icon: "☾";
+}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    font-size: 15px;
-    line-height: 1.6;
-    min-height: 100vh;
-  }
+/* system auto handled by JS on load */
 
-  a { color: inherit; text-decoration: none; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+  transition: var(--transition);
+}
+a { color: inherit; text-decoration: none; }
 
-  /* ── Layout ── */
-  .page {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 0 24px 80px;
-  }
+/* ── Layout ── */
+.page { max-width: 860px; margin: 0 auto; padding: 0 24px 80px; }
 
-  /* ── Header ── */
-  header {
-    padding: 52px 0 40px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 36px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
+/* ── Header ── */
+header {
+  padding: 48px 0 36px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.header-left h1 { font-family: var(--mono); font-size: 21px; font-weight: 500; color: var(--text); letter-spacing: -0.3px; margin-bottom: 4px; }
+.header-left p { font-size: 13px; color: var(--muted); font-weight: 300; }
+.header-left p a { color: var(--accent); border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+.header-left p a:hover { border-color: var(--accent); }
 
-  .header-left h1 {
-    font-family: var(--mono);
-    font-size: 22px;
-    font-weight: 500;
-    color: var(--text);
-    letter-spacing: -0.3px;
-    margin-bottom: 4px;
-  }
+.header-right { display: flex; align-items: flex-end; gap: 20px; }
+.header-stats { display: flex; gap: 20px; align-items: flex-end; }
+.stat { text-align: right; }
+.stat-num { font-family: var(--mono); font-size: 24px; font-weight: 500; color: var(--accent); line-height: 1; }
+.stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
 
-  .header-left p {
-    font-size: 13px;
-    color: var(--muted);
-    font-weight: 300;
-  }
+/* ── Theme switcher ── */
+.theme-switcher {
+  display: flex;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 4px;
+}
+.theme-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: var(--sans);
+  color: var(--muted);
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+.theme-btn.active { background: var(--accent-dim); color: var(--accent); }
+.theme-btn:hover:not(.active) { background: var(--surface2); color: var(--text); }
+.theme-btn .icon { font-size: 12px; margin-right: 3px; }
 
-  .header-left p a {
-    color: var(--accent);
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.15s;
-  }
-  .header-left p a:hover { border-color: var(--accent); }
+/* ── Toolbar ── */
+.toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+.seg { display: flex; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; flex-shrink: 0; }
+.seg-btn { background: none; border: none; cursor: pointer; padding: 7px 16px; font-size: 12px; font-weight: 500; font-family: var(--sans); color: var(--muted2); transition: background 0.15s, color 0.15s; letter-spacing: 0.02em; }
+.seg-btn.active { background: var(--accent-dim); color: var(--accent); }
+.seg-btn:hover:not(.active) { background: var(--surface2); color: var(--text); }
+.search-wrap { flex: 1; min-width: 180px; position: relative; }
+.search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; font-size: 13px; }
+.search-input {
+  width: 100%; height: 34px; padding: 0 12px 0 32px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); color: var(--text);
+  font-family: var(--sans); font-size: 13px; outline: none;
+  transition: var(--transition), border-color 0.15s;
+}
+.search-input::placeholder { color: var(--muted); }
+.search-input:focus { border-color: var(--border2); }
+.result-count { font-family: var(--mono); font-size: 11px; color: var(--muted); white-space: nowrap; flex-shrink: 0; padding: 0 4px; }
 
-  .header-stats {
-    display: flex;
-    gap: 20px;
-    align-items: flex-end;
-  }
+/* ── Topic pills ── */
+.topic-filters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 22px; }
+.topic-pill { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 500; color: var(--muted2); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.topic-pill:hover { border-color: var(--border2); color: var(--text); }
+.topic-pill.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
 
-  .stat {
-    text-align: right;
-  }
-  .stat-num {
-    font-family: var(--mono);
-    font-size: 24px;
-    font-weight: 500;
-    color: var(--accent);
-    line-height: 1;
-  }
-  .stat-label {
-    font-size: 11px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-top: 2px;
-  }
+/* ── Sections ── */
+.section { margin-bottom: 4px; animation: fadeIn 0.18s ease both; }
+.section-header { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: var(--radius); cursor: pointer; user-select: none; transition: background 0.12s; }
+.section-header:hover { background: var(--surface); }
+.section-label { font-family: var(--mono); font-size: 11.5px; font-weight: 500; color: var(--muted2); letter-spacing: 0.05em; text-transform: uppercase; flex: 1; }
+.section-badge { font-family: var(--mono); font-size: 11px; color: var(--muted); background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 1px 7px; }
+.chevron { color: var(--muted); font-size: 10px; transition: transform 0.2s; flex-shrink: 0; }
+.chevron.open { transform: rotate(90deg); }
 
-  /* ── Toolbar ── */
-  .toolbar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 28px;
-    flex-wrap: wrap;
-  }
+.article-list { margin: 2px 0 8px; border-left: 1px solid var(--border); margin-left: 14px; }
+.article-item { display: flex; align-items: baseline; gap: 10px; padding: 7px 14px 7px 20px; border-radius: 0 var(--radius) var(--radius) 0; transition: background 0.1s; cursor: pointer; }
+.article-item:hover { background: var(--accent-dim2); }
+.article-item:hover .article-title { color: var(--accent); }
+.article-title { font-size: 13.5px; color: var(--muted2); flex: 1; line-height: 1.45; transition: color 0.1s; }
+.article-meta { font-family: var(--mono); font-size: 11px; color: var(--muted); white-space: nowrap; flex-shrink: 0; }
+.topic-tag { font-size: 10px; padding: 2px 8px; border-radius: 4px; background: var(--tag-bg); color: var(--tag-text); white-space: nowrap; flex-shrink: 0; border: 1px solid var(--tag-border); }
 
-  .seg {
-    display: flex;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    flex-shrink: 0;
-  }
-  .seg-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 7px 16px;
-    font-size: 12px;
-    font-weight: 500;
-    font-family: var(--sans);
-    color: var(--muted2);
-    transition: background 0.15s, color 0.15s;
-    letter-spacing: 0.02em;
-  }
-  .seg-btn.active {
-    background: var(--accent-dim);
-    color: var(--accent);
-  }
-  .seg-btn:hover:not(.active) {
-    background: var(--surface2);
-    color: var(--text);
-  }
+.empty { text-align: center; padding: 60px 0; color: var(--muted); font-size: 13px; }
 
-  .search-wrap {
-    flex: 1;
-    min-width: 180px;
-    position: relative;
-  }
-  .search-icon {
-    position: absolute;
-    left: 11px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--muted);
-    pointer-events: none;
-    font-size: 13px;
-  }
-  .search-input {
-    width: 100%;
-    height: 34px;
-    padding: 0 12px 0 32px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    color: var(--text);
-    font-family: var(--sans);
-    font-size: 13px;
-    outline: none;
-    transition: border-color 0.15s;
-  }
-  .search-input::placeholder { color: var(--muted); }
-  .search-input:focus { border-color: var(--border2); }
+/* ── Footer ── */
+footer { border-top: 1px solid var(--border); margin-top: 60px; padding-top: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+footer span { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+footer a { color: var(--accent); }
 
-  .result-count {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--muted);
-    white-space: nowrap;
-    flex-shrink: 0;
-    padding: 0 4px;
-  }
-
-  /* ── Topic filter pills ── */
-  .topic-filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 24px;
-  }
-  .topic-pill {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 4px 12px;
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--muted2);
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-    letter-spacing: 0.01em;
-  }
-  .topic-pill:hover {
-    border-color: var(--border2);
-    color: var(--text);
-  }
-  .topic-pill.active {
-    background: var(--accent-dim);
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  /* ── Sections ── */
-  .section { margin-bottom: 4px; }
-
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    border-radius: var(--radius);
-    cursor: pointer;
-    user-select: none;
-    transition: background 0.12s;
-  }
-  .section-header:hover { background: var(--surface); }
-
-  .section-label {
-    font-family: var(--mono);
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--muted2);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    flex: 1;
-  }
-
-  .section-badge {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--muted);
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 1px 7px;
-  }
-
-  .chevron {
-    color: var(--muted);
-    font-size: 10px;
-    transition: transform 0.2s;
-    flex-shrink: 0;
-  }
-  .chevron.open { transform: rotate(90deg); }
-
-  .article-list {
-    margin: 2px 0 8px;
-    border-left: 1px solid var(--border);
-    margin-left: 14px;
-    padding-left: 0;
-  }
-
-  .article-item {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    padding: 8px 14px 8px 20px;
-    border-radius: 0 var(--radius) var(--radius) 0;
-    transition: background 0.1s;
-    cursor: pointer;
-  }
-  .article-item:hover {
-    background: var(--accent-dim2);
-  }
-  .article-item:hover .article-title {
-    color: var(--accent);
-  }
-
-  .article-title {
-    font-size: 13.5px;
-    color: var(--muted2);
-    flex: 1;
-    line-height: 1.45;
-    transition: color 0.1s;
-  }
-
-  .article-meta {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--muted);
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .topic-tag {
-    font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 4px;
-    background: var(--tag-bg);
-    color: var(--tag-text);
-    white-space: nowrap;
-    flex-shrink: 0;
-    border: 1px solid rgba(79,142,247,0.15);
-  }
-
-  /* ── Empty ── */
-  .empty {
-    text-align: center;
-    padding: 60px 0;
-    color: var(--muted);
-    font-size: 13px;
-  }
-  .empty-icon { font-size: 28px; margin-bottom: 12px; }
-
-  /* ── Footer ── */
-  footer {
-    border-top: 1px solid var(--border);
-    margin-top: 60px;
-    padding-top: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  footer span {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--muted);
-  }
-  footer a { color: var(--accent); }
-
-  /* ── Animations ── */
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .section {
-    animation: fadeIn 0.2s ease both;
-  }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
@@ -352,14 +179,15 @@
       <h1>daniel jonathan</h1>
       <p>Azure &amp; Microsoft Integration · <a href="https://dev.to/imdj" target="_blank">dev.to/imdj</a> · <a href="https://github.com/imdj360" target="_blank">github.com/imdj360</a></p>
     </div>
-    <div class="header-stats">
-      <div class="stat">
-        <div class="stat-num" id="total-count">—</div>
-        <div class="stat-label">articles</div>
+    <div class="header-right">
+      <div class="header-stats">
+        <div class="stat"><div class="stat-num" id="total-count">—</div><div class="stat-label">articles</div></div>
+        <div class="stat"><div class="stat-num" id="topic-count">—</div><div class="stat-label">topics</div></div>
       </div>
-      <div class="stat">
-        <div class="stat-num" id="topic-count">—</div>
-        <div class="stat-label">topics</div>
+      <div class="theme-switcher">
+        <button class="theme-btn" id="t-light" onclick="setTheme('light')" title="Light mode"><span class="icon">☀</span>Light</button>
+        <button class="theme-btn" id="t-dark"  onclick="setTheme('dark')"  title="Dark mode"><span class="icon">☾</span>Dark</button>
+        <button class="theme-btn active" id="t-auto"  onclick="setTheme('auto')"  title="System default"><span class="icon">⊙</span>Auto</button>
       </div>
     </div>
   </header>
@@ -377,17 +205,32 @@
   </div>
 
   <div class="topic-filters" id="topic-filters"></div>
-
   <div id="content"></div>
 
   <footer>
     <span>daniel jonathan · <a href="https://dev.to/imdj" target="_blank">dev.to/imdj</a></span>
     <span id="footer-updated"></span>
   </footer>
-
 </div>
 
 <script>
+/* ── Theme ── */
+const mq = window.matchMedia('(prefers-color-scheme: dark)');
+let currentTheme = localStorage.getItem('theme') || 'auto';
+
+function applyTheme(t) {
+  const resolved = t === 'auto' ? (mq.matches ? 'dark' : 'light') : t;
+  document.documentElement.setAttribute('data-theme', resolved);
+  ['light','dark','auto'].forEach(x => document.getElementById('t-'+x).classList.toggle('active', x === t));
+  localStorage.setItem('theme', t);
+  currentTheme = t;
+}
+
+function setTheme(t) { applyTheme(t); }
+mq.addEventListener('change', () => { if (currentTheme === 'auto') applyTheme('auto'); });
+applyTheme(currentTheme);
+
+/* ── Data ── */
 const articles = [
   {title:"Skip the Designer — Editing Logic Apps Data Mapper LML Files Directly",url:"https://dev.to/imdj/skip-the-designer-editing-logic-apps-data-mapper-lml-files-directly-40l0",date:"2026-03-27",topic:"Data Mapper & XSLT"},
   {title:"Workaround: Testing Logic Apps Data Mapper Maps on macOS",url:"https://dev.to/imdj/workaround-testing-logic-apps-data-mapper-maps-on-macos-16k8",date:"2026-03-27",topic:"Data Mapper & XSLT"},
@@ -427,142 +270,154 @@ const articles = [
   {title:"Enabling Easy Auth for Azure Logic Apps (Standard)",url:"https://dev.to/imdj/enabling-easy-auth-for-azure-logic-apps-standard-1m2i",date:"2025-09-21",topic:"Security & Governance"},
   {title:"Validate LogicApp MCP Server with BODMAS Rules",url:"https://dev.to/imdj/validate-logicapp-mcp-server-with-bodmas-rules-d44",date:"2025-09-21",topic:"MCP"},
   {title:"LogicApp Autonomous Agents for Dynamic Tool Creation in LogicApp MCP Server",url:"https://dev.to/imdj/logicapp-autonomous-agents-for-dynamic-tool-creation-in-logicapp-mcp-server-4a3",date:"2025-09-20",topic:"MCP"},
-  {title:"Logic Apps ❤️ MCP — Expose Arithmetic Tools (Add & Subtract)",url:"https://dev.to/imdj/-logic-apps-mcp-expose-arithmetic-tools-add-subtract-4o24",date:"2025-09-20",topic:"MCP"},
+  {title:"Logic Apps MCP — Expose Arithmetic Tools (Add & Subtract)",url:"https://dev.to/imdj/-logic-apps-mcp-expose-arithmetic-tools-add-subtract-4o24",date:"2025-09-20",topic:"MCP"},
   {title:"Enabling a Logic App as an MCP Server",url:"https://dev.to/imdj/enabling-a-logic-app-as-an-mcp-server-34bp",date:"2025-09-19",topic:"MCP"},
   {title:"Refund Decisions in Logic Apps: An AI Agent with Human-in-the-Loop",url:"https://dev.to/imdj/refund-decisions-in-logic-apps-an-ai-agent-with-human-in-the-loop-541l",date:"2025-09-19",topic:"AI & Agentic Patterns"},
   {title:"Azure DevOps CI-CD for BizTalk with BTDF and Powershell",url:"https://dev.to/imdj/azure-devops-ci-cd-for-biztalk-with-btdf-and-powershell-2olf",date:"2025-09-19",topic:"BizTalk"},
-  {title:"Using Azure DevOps to Deploy WebAPI to App Service",url:"https://dev.to/imdj/using-azure-devops-deploy-webapi-in-azure-app-service-150j",date:"2025-09-19",topic:".NET / Web API"},
   {title:"Azure DevOps for BizTalk CI-CD",url:"https://dev.to/imdj/azure-devops-for-biztalk-ci-cd-1nmd",date:"2025-09-19",topic:"BizTalk"},
+  {title:"Using Azure DevOps to Deploy WebAPI to App Service",url:"https://dev.to/imdj/using-azure-devops-deploy-webapi-in-azure-app-service-150j",date:"2025-09-19",topic:".NET / Web API"},
   {title:"Liquid Transformation As a Azure Function using DotLiquid",url:"https://dev.to/imdj/liquid-transformation-as-a-azure-function-using-dotliquid-knf",date:"2025-09-19",topic:"Azure Functions"},
   {title:"Migrating BizTalk Transformation To Azure using Azure Function as an API",url:"https://dev.to/imdj/migrating-biztalk-transformation-to-azure-using-azure-function-as-an-api-46gd",date:"2025-09-19",topic:"Azure Functions"},
+  {title:"Build Pub-Sub Model Using Azure Functions",url:"https://dev.to/imdj/build-pub-sub-model-using-azure-functions-integrate-azure-function-36kh",date:"2025-09-19",topic:"Azure Functions"},
+  {title:"Basics of Azure Function | App Service | PaaS",url:"https://dev.to/imdj/basics-of-azure-function-app-service-paas-1pa2",date:"2025-09-19",topic:"Azure Functions"},
   {title:"Connecting to On-Prem SQL Server using Azure Hybrid Connection",url:"https://dev.to/imdj/connecting-to-on-prem-sql-server-using-azure-hybrid-connection-4j06",date:"2025-09-19",topic:"Integrations & Connectivity"},
+  {title:"Connecting On-Premise Service Using On-Premise Data Gateway",url:"https://dev.to/imdj/connecting-on-premise-service-using-on-premise-data-gateway-15ic",date:"2025-09-19",topic:"Integrations & Connectivity"},
+  {title:"Hybrid Integration Solution Using BizTalk and Azure Logic App/Azure Func",url:"https://dev.to/imdj/hybrid-integration-solution-using-biztalk-and-azure-logic-appazure-func-2605",date:"2025-09-19",topic:"Integrations & Connectivity"},
+  {title:"Logic App | Integrating with Azure Function",url:"https://dev.to/imdj/logic-app-integrating-with-azure-function-4d8k",date:"2025-09-19",topic:"Integrations & Connectivity"},
+  {title:"Logic Apps | Azure Integration | Server-less Compute",url:"https://dev.to/imdj/logic-apps-azure-integration-server-less-compute-1na2",date:"2025-09-19",topic:"Integrations & Connectivity"},
+  {title:"Azure API Management | Onboarding APIs to APIM",url:"https://dev.to/imdj/azure-api-management-onboarding-apis-to-apim-apim-basics-366c",date:"2025-09-19",topic:"APIM"},
+  {title:"Azure API Management | APIM Policies",url:"https://dev.to/imdj/azure-api-management-azure-apim-policies-apim-basics-3f81",date:"2025-09-19",topic:"APIM"},
   {title:"Exposing On-Premise BizTalk Service to Internet with Service Bus & WCF-Relay Adapter",url:"https://dev.to/imdj/exposing-on-premise-biztalk-service-to-internet-with-service-bus-wcf-relay-adapter-2ahc",date:"2025-09-19",topic:"BizTalk"},
   {title:"Hybrid Adapters BizTalk Server 2016 | Event Hub & Service Bus Messaging Adapters",url:"https://dev.to/imdj/hybrid-adapters-biztalk-server-2016-event-hub-service-bus-messaging-adapters-23ig",date:"2025-09-19",topic:"BizTalk"},
-  {title:"Connecting On-Premise Service Using On-Premise Data Gateway",url:"https://dev.to/imdj/connecting-on-premise-service-using-on-premise-data-gateway-15ic",date:"2025-09-19",topic:"Integrations & Connectivity"},
+  {title:"Optimizing BizTalk Map Execution and Modularizing Map using Import XSLT",url:"https://dev.to/imdj/optimizing-biztalk-map-execution-and-modularizing-map-using-import-xslt-53ob",date:"2025-09-19",topic:"BizTalk"},
+  {title:"Executing BizTalk Pipelines Inside Orchestration",url:"https://dev.to/imdj/executing-biztalk-pipelines-inside-orchestration-18nc",date:"2025-09-19",topic:"BizTalk"},
+  {title:"Encryption and Decryption of Sensitive Information using Pipeline Components in BizTalk",url:"https://dev.to/imdj/encryption-and-decryption-of-sensitive-information-using-pipeline-components-in-biztalk-37i8",date:"2025-09-19",topic:"BizTalk"},
+  {title:"Custom Pipelines and Pipeline Components | BizTalk",url:"https://dev.to/imdj/custom-pipelines-and-pipeline-components-biztalk-4l28",date:"2025-09-19",topic:"BizTalk"},
+  {title:"Custom Funtiods in BizTalk | Encryption and Decryption in Map",url:"https://dev.to/imdj/custom-funtiods-in-biztalk-encryption-and-decryption-in-map-4mfl",date:"2025-09-19",topic:"BizTalk"},
+  {title:"BizTalk Mapper/Transformation | Basic Concepts - Part 2",url:"https://dev.to/imdj/biztalk-mappertransformation-basic-concepts-part2-1e32",date:"2025-09-19",topic:"BizTalk"},
+  {title:"Call and Start Orchestrations in BizTalk",url:"https://dev.to/imdj/call-and-start-orchestrations-in-biztalk-1m4a",date:"2025-09-19",topic:"BizTalk"},
+  {title:"Atomic and Long-running Transaction | BizTalk | Exception Handling",url:"https://dev.to/imdj/atomic-and-long-running-transaction-biztalk-exception-handling-2eog",date:"2025-09-19",topic:"BizTalk"},
+  {title:"Exception Handling with None Transaction Scope | BizTalk",url:"https://dev.to/imdj/exception-handling-with-none-transaction-scope-biztalk-2mi0",date:"2025-09-19",topic:"BizTalk"},
+  {title:"Build Simple Orchestration Process in BizTalk | Basic Concepts - Part 4",url:"https://dev.to/imdj/build-simple-orchestration-process-in-biztalk-basic-concepts-part-4-1a",date:"2025-09-19",topic:"BizTalk"},
+  {title:"ESB Service Composition / Chaining",url:"https://dev.to/imdj/biztalk-esb-toolkit-esb-service-composition-service-chaining-297",date:"2025-09-19",topic:"BizTalk ESB"},
+  {title:"Two-way Request/Response Itinerary – Part 2",url:"https://dev.to/imdj/biztalk-esb-toolkit-two-way-request-response-itinerary-process-web-service-call-from-esb-part-2-1296",date:"2025-09-19",topic:"BizTalk ESB"},
+  {title:"Two-way Request/Response Itinerary – Part 1",url:"https://dev.to/imdj/biztalk-esb-toolkit-two-way-request-response-itinerary-process-web-service-call-from-esb-part-1-p35",date:"2025-09-19",topic:"BizTalk ESB"},
+  {title:"Dynamic Resolvers in ESB Itinerary (BRE)",url:"https://dev.to/imdj/biztalk-esb-toolkit-dynamic-resolvers-in-esb-itinerary-process-io2",date:"2025-09-19",topic:"BizTalk ESB"},
+  {title:"ESB Routing Slip Itinerary Process",url:"https://dev.to/imdj/biztalk-esb-toolkit-esb-routing-slip-itinerary-process-mj5",date:"2025-09-19",topic:"BizTalk ESB"},
+  {title:"Introduction To BizTalk ESB Toolkit 2.2",url:"https://dev.to/imdj/introduction-to-biztalk-esb-toolkit-22-esb-biztalk-2fl2",date:"2025-09-19",topic:"BizTalk ESB"},
+  {title:"Using BRE for Dynamic Routing Decisions",url:"https://dev.to/imdj/using-bre-for-dynamic-routing-decisions-efg",date:"2025-09-19",topic:"BizTalk BRE"},
+  {title:"Creating Custom Vocabulary & Policy in BRE",url:"https://dev.to/imdj/creating-custom-vocabulary-and-policy-in-bre-abc",date:"2025-09-19",topic:"BizTalk BRE"},
+  {title:"Dynamic Policy Execution with BizTalk BRE",url:"https://dev.to/imdj/dynamic-policy-execution-with-biztalk-bre-xyz",date:"2025-09-19",topic:"BizTalk BRE"},
+  {title:"Business Rule Engine (BRE) | BizTalk - Part 3",url:"https://dev.to/imdj/business-rule-engine-bre-biztalk-part-3-35a8",date:"2025-09-19",topic:"BizTalk BRE"},
+  {title:"Business Rule Engine (BRE) | BizTalk - Part 2",url:"https://dev.to/imdj/business-rule-engine-bre-biztalk-part-2-2841",date:"2025-09-19",topic:"BizTalk BRE"},
+  {title:"Business Rule Engine (BRE) | BizTalk - Part 1",url:"https://dev.to/imdj/business-rule-engine-bre-biztalk-part-1-3b0a",date:"2025-09-19",topic:"BizTalk BRE"},
+  {title:"Enabling Logging Mechanism in BizTalk Server | Tracing using Log4Net",url:"https://dev.to/imdj/enabling-logging-mechanism-in-biztalk-server-tracing-using-log4net-7ld",date:"2025-09-19",topic:"BizTalk"},
+  {title:"BizTalk Server 2016 | Application Insight Logging | Azure-BizTalk",url:"https://dev.to/imdj/biztalk-server-2016-application-insight-logging-azure-biztalk-3b6e",date:"2025-09-19",topic:"BizTalk"},
+  {title:"BizTalk Deployment | BTDF Framework",url:"https://dev.to/imdj/biztalk-deployment-btdf-framework-3615",date:"2025-09-19",topic:"BizTalk"},
+  {title:"Boomerang BizTalk Web Service for Transformation",url:"https://dev.to/imdj/boomerang-biztalk-web-service-for-transformation-2b3o",date:"2025-09-19",topic:"BizTalk"},
+  {title:"Assembly binding redirect in BizTalk",url:"https://dev.to/imdj/assembly-binding-redirect-in-biztalk-e6p",date:"2025-09-19",topic:"BizTalk"},
+  {title:"Exposing Schema As Web Service",url:"https://dev.to/imdj/exposing-schema-as-web-service-7gf",date:"2025-09-19",topic:"BizTalk"},
+  {title:"BAM Tracking End to End in BizTalk",url:"https://dev.to/imdj/bam-tracking-end-to-end-in-biztalk-2kn3",date:"2025-09-19",topic:"BizTalk"},
+  {title:"X-Path Queries on XML Document | BizTalk Server",url:"https://dev.to/imdj/x-path-queries-on-xml-document-biztalk-server-35co",date:"2025-09-19",topic:"BizTalk"},
+  {title:"Message Routing In BizTalk | Intro BizTalk Admin Console | Basic Concepts - Part 3",url:"https://dev.to/imdj/message-routing-in-biztalk-intro-biztalk-admin-console-basic-concepts-part-3-1ebc",date:"2025-09-19",topic:"BizTalk"},
+  {title:"Schema In BizTalk Server | XML Schema Definition (XSD) | Basic Concepts | Part 1",url:"https://dev.to/imdj/schema-in-biztalk-server-biztalk-xml-schema-definition-xsd-basic-concepts-part-1-2m7j",date:"2025-09-19",topic:"BizTalk"},
+  {title:"Introduction to BizTalk Server Architecture",url:"https://dev.to/imdj/introduction-to-biztalk-server-architecture-biztalk-server-n1p",date:"2025-09-19",topic:"BizTalk"},
+  {title:"ADO.NET Basics – Connecting, Commands & DataReader",url:"https://dev.to/imdj/adonet-basics-connecting-commands-and-datareader-1234",date:"2025-09-19",topic:".NET / Web API"},
+  {title:"CRUD Operations Using ADO.NET",url:"https://dev.to/imdj/crud-operations-using-adonet-5678",date:"2025-09-19",topic:".NET / Web API"},
+  {title:"Using Stored Procedures in ADO.NET",url:"https://dev.to/imdj/using-stored-procedures-in-adonet-9101",date:"2025-09-19",topic:".NET / Web API"},
+  {title:"Introduction To WCF | Basics of WCF",url:"https://dev.to/imdj/introduction-to-wcf-basics-of-wcf-1n34",date:"2025-09-19",topic:".NET / Web API"},
+  {title:"Developing WCF Services | Banking Transaction",url:"https://dev.to/imdj/developing-wcf-services-wcf-service-for-banking-transaction-106f",date:"2025-09-19",topic:".NET / Web API"},
+  {title:"Developing WCF Service | Booking Service",url:"https://dev.to/imdj/developing-wcf-service-booking-service-442e",date:"2025-09-19",topic:".NET / Web API"},
+  {title:"Restful WebApi Routing | Customizing WebApi Routes",url:"https://dev.to/imdj/restful-webapi-routing-customizing-webapi-routes-4hp5",date:"2025-09-19",topic:".NET / Web API"},
+  {title:"Restful API | Enabling CRUD Operations",url:"https://dev.to/imdj/restful-api-enabling-crud-operations-5f56",date:"2025-09-19",topic:".NET / Web API"},
+  {title:"Restful API with Entity Framework | 3-Tier WebApi",url:"https://dev.to/imdj/restful-api-with-entity-framework-3-tier-webapi-5fd2",date:"2025-09-19",topic:".NET / Web API"},
+  {title:"Restful WebApi Getting Started",url:"https://dev.to/imdj/restful-webapi-getting-started-2n5i",date:"2025-09-19",topic:".NET / Web API"},
+  {title:"Azure PaaS | App Service | WebAPI",url:"https://dev.to/imdj/azure-paas-app-service-webapi-3li6",date:"2025-09-19",topic:".NET / Web API"},
+  {title:"Basics of LINQ",url:"https://dev.to/imdj/basics-of-linq-36p7",date:"2025-09-19",topic:".NET / Web API"},
+  {title:"Delegates and Events in C Sharp",url:"https://dev.to/imdj/delegates-and-events-in-c-sharp-315d",date:"2025-09-19",topic:".NET / Web API"},
+  {title:"OOPs Concepts in Csharp Dotnet",url:"https://dev.to/imdj/oops-concepts-in-csharp-dotnet-3mc8",date:"2025-09-19",topic:".NET / Web API"},
+  {title:"Basics in Csharp DotNet | Crash Course",url:"https://dev.to/imdj/basics-in-csharp-dotnet-crash-course-5c86",date:"2025-09-19",topic:".NET / Web API"},
+  {title:"Quick Reference for Interview",url:"https://dev.to/imdj/quick-reference-for-interview-2af9",date:"2025-09-19",topic:"Quick Reference"},
 ];
 
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-const TOPIC_ORDER = ["MCP","Data Mapper & XSLT","Logic Apps Internals","Testing Logic Apps","Local Dev & Docker","Integrations & Connectivity","Security & Governance","Azure Functions","Testing",".NET / Web API","BizTalk","AI & Agentic Patterns","Tools & Utilities","Quick Reference"];
+const TOPIC_ORDER = ["MCP","Data Mapper & XSLT","Logic Apps Internals","Testing Logic Apps","Local Dev & Docker","Integrations & Connectivity","Security & Governance","Azure Functions","APIM","Testing",".NET / Web API","BizTalk","BizTalk BRE","BizTalk ESB","AI & Agentic Patterns","Tools & Utilities","Quick Reference"];
 
-let view = 'topic';
-let collapsed = {};
-let activeTopic = null;
+let view = 'topic', collapsed = {}, activeTopic = null;
 
-function fmtDate(d) {
-  const [y,m,day] = d.split('-');
-  return MONTHS[parseInt(m)-1] + ' ' + parseInt(day) + ', ' + y;
-}
-function fmtMonth(d) {
-  const [y,m] = d.split('-');
-  return MONTHS[parseInt(m)-1] + ' ' + y;
-}
+function fmtDate(d) { const [y,m,day]=d.split('-'); return MONTHS[parseInt(m)-1]+' '+parseInt(day)+', '+y; }
+function fmtMonth(d) { const [y,m]=d.split('-'); return MONTHS[parseInt(m)-1]+' '+y; }
 function monthKey(d) { return d.slice(0,7); }
 
 function setView(v) {
-  view = v;
-  activeTopic = null;
-  collapsed = {};
-  document.getElementById('btn-topic').classList.toggle('active', v==='topic');
-  document.getElementById('btn-date').classList.toggle('active', v==='date');
-  renderFilters();
-  render();
+  view=v; activeTopic=null; collapsed={};
+  document.getElementById('btn-topic').classList.toggle('active',v==='topic');
+  document.getElementById('btn-date').classList.toggle('active',v==='date');
+  renderFilters(); render();
 }
 
 function setTopic(t) {
-  activeTopic = (activeTopic === t) ? null : t;
-  document.querySelectorAll('.topic-pill').forEach(el => {
-    el.classList.toggle('active', el.dataset.topic === activeTopic);
-  });
+  activeTopic=(activeTopic===t)?null:t;
+  document.querySelectorAll('.topic-pill').forEach(el=>el.classList.toggle('active',el.dataset.topic===activeTopic));
   render();
 }
 
-function toggle(key) {
-  collapsed[key] = !collapsed[key];
-  render();
-}
+function toggle(key) { collapsed[key]=!collapsed[key]; render(); }
 
 function filtered() {
-  const q = document.getElementById('search').value.toLowerCase();
-  return articles.filter(a =>
-    (!activeTopic || a.topic === activeTopic) &&
-    (a.title.toLowerCase().includes(q) || a.topic.toLowerCase().includes(q))
-  );
+  const q=document.getElementById('search').value.toLowerCase();
+  return articles.filter(a=>(!activeTopic||a.topic===activeTopic)&&(a.title.toLowerCase().includes(q)||a.topic.toLowerCase().includes(q)));
 }
 
 function renderFilters() {
-  const topics = TOPIC_ORDER.filter(t => articles.some(a => a.topic === t));
-  const extra = [...new Set(articles.map(a=>a.topic))].filter(t => !TOPIC_ORDER.includes(t));
-  const allTopics = [...topics, ...extra];
-  const el = document.getElementById('topic-filters');
-  if (view !== 'topic') { el.innerHTML = ''; return; }
-  el.innerHTML = allTopics.map(t =>
-    `<button class="topic-pill${activeTopic===t?' active':''}" data-topic="${t}" onclick="setTopic('${t.replace(/'/g,"\\'")}')">${t}</button>`
-  ).join('');
+  const el=document.getElementById('topic-filters');
+  if(view!=='topic'){el.innerHTML='';return;}
+  const topics=TOPIC_ORDER.filter(t=>articles.some(a=>a.topic===t));
+  el.innerHTML=topics.map(t=>`<button class="topic-pill${activeTopic===t?' active':''}" data-topic="${t}" onclick="setTopic('${t.replace(/'/g,"\\'")}')">${t}</button>`).join('');
 }
 
 function makeSection(key, label, items, showTopic) {
-  const isOpen = collapsed[key] !== true;
-  let html = `<div class="section">
-    <div class="section-header" onclick="toggle('${key.replace(/'/g,"\\'")}')">
-      <span class="section-label">${label}</span>
-      <span class="section-badge">${items.length}</span>
-      <span class="chevron${isOpen?' open':''}">▶</span>
-    </div>`;
-  if (isOpen) {
-    html += '<div class="article-list">';
-    items.forEach(a => {
-      const meta = showTopic
-        ? `<span class="topic-tag">${a.topic}</span>`
-        : `<span class="article-meta">${fmtDate(a.date)}</span>`;
-      html += `<div class="article-item" onclick="window.open('${a.url}','_blank')">
-        <span class="article-title">${a.title}</span>
-        ${meta}
-      </div>`;
+  const isOpen=collapsed[key]!==true;
+  const sk=key.replace(/['"&]/g,c=>c==='&'?'and':c==='\''?'\\\'':'\\"');
+  let h=`<div class="section"><div class="section-header" onclick="toggle('${sk}')"><span class="section-label">${label}</span><span class="section-badge">${items.length}</span><span class="chevron${isOpen?' open':''}">▶</span></div>`;
+  if(isOpen){
+    h+='<div class="article-list">';
+    items.forEach(a=>{
+      const meta=showTopic?`<span class="topic-tag">${a.topic}</span>`:`<span class="article-meta">${fmtDate(a.date)}</span>`;
+      h+=`<div class="article-item" onclick="window.open('${a.url}','_blank')"><span class="article-title">${a.title}</span>${meta}</div>`;
     });
-    html += '</div>';
+    h+='</div>';
   }
-  html += '</div>';
-  return html;
+  return h+'</div>';
 }
 
 function render() {
-  const list = filtered();
-  document.getElementById('result-count').textContent = list.length + ' / ' + articles.length;
-
-  if (list.length === 0) {
-    document.getElementById('content').innerHTML =
-      '<div class="empty"><div class="empty-icon">○</div>No articles match.</div>';
-    return;
-  }
-
-  let html = '';
-  if (view === 'topic') {
-    const groups = {};
-    list.forEach(a => { if (!groups[a.topic]) groups[a.topic] = []; groups[a.topic].push(a); });
-    const extra = Object.keys(groups).filter(t => !TOPIC_ORDER.includes(t));
-    const keys = [...TOPIC_ORDER.filter(t => groups[t]), ...extra];
-    keys.forEach(t => {
-      const items = [...groups[t]].sort((a,b) => b.date.localeCompare(a.date));
-      html += makeSection(t, t, items, false);
+  const list=filtered();
+  document.getElementById('result-count').textContent=list.length+' / '+articles.length;
+  if(!list.length){document.getElementById('content').innerHTML='<div class="empty">No articles match.</div>';return;}
+  let h='';
+  if(view==='topic'){
+    const groups={};
+    list.forEach(a=>{if(!groups[a.topic])groups[a.topic]=[];groups[a.topic].push(a);});
+    const extra=Object.keys(groups).filter(t=>!TOPIC_ORDER.includes(t));
+    [...TOPIC_ORDER.filter(t=>groups[t]),...extra].forEach(t=>{
+      h+=makeSection(t,t,[...groups[t]].sort((a,b)=>b.date.localeCompare(a.date)),false);
     });
   } else {
-    const groups = {};
-    list.forEach(a => { const k = monthKey(a.date); if (!groups[k]) groups[k] = []; groups[k].push(a); });
-    Object.keys(groups).sort((a,b)=>b.localeCompare(a)).forEach(k => {
-      const items = [...groups[k]].sort((a,b) => b.date.localeCompare(a.date));
-      html += makeSection(k, fmtMonth(items[0].date), items, true);
+    const groups={};
+    list.forEach(a=>{const k=monthKey(a.date);if(!groups[k])groups[k]=[];groups[k].push(a);});
+    Object.keys(groups).sort((a,b)=>b.localeCompare(a)).forEach(k=>{
+      const items=[...groups[k]].sort((a,b)=>b.date.localeCompare(a.date));
+      h+=makeSection(k,fmtMonth(items[0].date),items,true);
     });
   }
-
-  document.getElementById('content').innerHTML = html;
+  document.getElementById('content').innerHTML=h;
 }
 
-// Init
-document.getElementById('total-count').textContent = articles.length;
-document.getElementById('topic-count').textContent = [...new Set(articles.map(a=>a.topic))].length;
-document.getElementById('footer-updated').textContent = 'updated ' + fmtDate(articles[0].date);
-renderFilters();
-render();
+document.getElementById('total-count').textContent=articles.length;
+document.getElementById('topic-count').textContent=[...new Set(articles.map(a=>a.topic))].length;
+document.getElementById('footer-updated').textContent='updated '+fmtDate(articles[0].date);
+renderFilters(); render();
 </script>
 </body>
 </html>
