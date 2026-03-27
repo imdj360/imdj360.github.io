@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Daniel Jonathan — Articles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0e0f11;
+    --surface: #16181c;
+    --surface2: #1e2026;
+    --border: #2a2d35;
+    --border2: #353840;
+    --text: #e8eaf0;
+    --muted: #6b7280;
+    --muted2: #9ca3af;
+    --accent: #4f8ef7;
+    --accent-dim: rgba(79,142,247,0.12);
+    --accent-dim2: rgba(79,142,247,0.06);
+    --tag-bg: #1e2330;
+    --tag-text: #7ba8f5;
+    --mono: 'DM Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* ── Layout ── */
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ── Header ── */
+  header {
+    padding: 52px 0 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 36px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .header-left h1 {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: -0.3px;
+    margin-bottom: 4px;
+  }
+
+  .header-left p {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .header-left p a {
+    color: var(--accent);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s;
+  }
+  .header-left p a:hover { border-color: var(--accent); }
+
+  .header-stats {
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+  }
+
+  .stat {
+    text-align: right;
+  }
+  .stat-num {
+    font-family: var(--mono);
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+  }
+
+  /* ── Toolbar ── */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .seg {
+    display: flex;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .seg-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 7px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: var(--sans);
+    color: var(--muted2);
+    transition: background 0.15s, color 0.15s;
+    letter-spacing: 0.02em;
+  }
+  .seg-btn.active {
+    background: var(--accent-dim);
+    color: var(--accent);
+  }
+  .seg-btn:hover:not(.active) {
+    background: var(--surface2);
+    color: var(--text);
+  }
+
+  .search-wrap {
+    flex: 1;
+    min-width: 180px;
+    position: relative;
+  }
+  .search-icon {
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
+    font-size: 13px;
+  }
+  .search-input {
+    width: 100%;
+    height: 34px;
+    padding: 0 12px 0 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .search-input::placeholder { color: var(--muted); }
+  .search-input:focus { border-color: var(--border2); }
+
+  .result-count {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding: 0 4px;
+  }
+
+  /* ── Topic filter pills ── */
+  .topic-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+  .topic-pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted2);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+  }
+  .topic-pill:hover {
+    border-color: var(--border2);
+    color: var(--text);
+  }
+  .topic-pill.active {
+    background: var(--accent-dim);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ── Sections ── */
+  .section { margin-bottom: 4px; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.12s;
+  }
+  .section-header:hover { background: var(--surface); }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted2);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    flex: 1;
+  }
+
+  .section-badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 7px;
+  }
+
+  .chevron {
+    color: var(--muted);
+    font-size: 10px;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .chevron.open { transform: rotate(90deg); }
+
+  .article-list {
+    margin: 2px 0 8px;
+    border-left: 1px solid var(--border);
+    margin-left: 14px;
+    padding-left: 0;
+  }
+
+  .article-item {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 8px 14px 8px 20px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    transition: background 0.1s;
+    cursor: pointer;
+  }
+  .article-item:hover {
+    background: var(--accent-dim2);
+  }
+  .article-item:hover .article-title {
+    color: var(--accent);
+  }
+
+  .article-title {
+    font-size: 13.5px;
+    color: var(--muted2);
+    flex: 1;
+    line-height: 1.45;
+    transition: color 0.1s;
+  }
+
+  .article-meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .topic-tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    white-space: nowrap;
+    flex-shrink: 0;
+    border: 1px solid rgba(79,142,247,0.15);
+  }
+
+  /* ── Empty ── */
+  .empty {
+    text-align: center;
+    padding: 60px 0;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .empty-icon { font-size: 28px; margin-bottom: 12px; }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--border);
+    margin-top: 60px;
+    padding-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  footer span {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  footer a { color: var(--accent); }
+
+  /* ── Animations ── */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .section {
+    animation: fadeIn 0.2s ease both;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="header-left">
+      <h1>daniel jonathan</h1>
+      <p>Azure &amp; Microsoft Integration · <a href="https://dev.to/imdj" target="_blank">dev.to/imdj</a> · <a href="https://github.com/imdj360" target="_blank">github.com/imdj360</a></p>
+    </div>
+    <div class="header-stats">
+      <div class="stat">
+        <div class="stat-num" id="total-count">—</div>
+        <div class="stat-label">articles</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="topic-count">—</div>
+        <div class="stat-label">topics</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <div class="seg">
+      <button class="seg-btn active" id="btn-topic" onclick="setView('topic')">By topic</button>
+      <button class="seg-btn" id="btn-date" onclick="setView('date')">By date</button>
+    </div>
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input class="search-input" id="search" placeholder="Search articles…" oninput="render()" autocomplete="off" />
+    </div>
+    <span class="result-count" id="result-count"></span>
+  </div>
+
+  <div class="topic-filters" id="topic-filters"></div>
+
+  <div id="content"></div>
+
+  <footer>
+    <span>daniel jonathan · <a href="https://dev.to/imdj" target="_blank">dev.to/imdj</a></span>
+    <span id="footer-updated"></span>
+  </footer>
+
+</div>
+
+<script>
+const articles = [
+  {title:"Skip the Designer — Editing Logic Apps Data Mapper LML Files Directly",url:"https://dev.to/imdj/skip-the-designer-editing-logic-apps-data-mapper-lml-files-directly-40l0",date:"2026-03-27",topic:"Data Mapper & XSLT"},
+  {title:"Workaround: Testing Logic Apps Data Mapper Maps on macOS",url:"https://dev.to/imdj/workaround-testing-logic-apps-data-mapper-maps-on-macos-16k8",date:"2026-03-27",topic:"Data Mapper & XSLT"},
+  {title:"Cut Logic Apps Standard Costs by 70% in Dev & POC Environments",url:"https://dev.to/imdj/cut-logic-apps-standard-costs-by-70-in-dev-poc-azure-environments-22on",date:"2026-02-15",topic:"Logic Apps Internals"},
+  {title:"Inside Logic Apps Standard: How Azure Tables Store Your Workflows",url:"https://dev.to/imdj/inside-logic-apps-standard-how-azure-tables-store-your-workflows-5125",date:"2026-01-14",topic:"Logic Apps Internals"},
+  {title:"Inside Logic Apps Standard: Understanding Compute Units (CU) for Storage Scaling",url:"https://dev.to/imdj/inside-logic-apps-standard-understanding-compute-units-cu-for-storage-scaling-39k6",date:"2026-01-14",topic:"Logic Apps Internals"},
+  {title:"Testing Azure Logic Apps: Implementation Guide",url:"https://dev.to/imdj/testing-azure-logic-apps-part-2-production-implementation-guide-1n3m",date:"2025-12-18",topic:"Testing Logic Apps"},
+  {title:"Testing Azure Logic Apps: LogicAppUnit Framework Complete Guide",url:"https://dev.to/imdj/testing-azure-logic-apps-complete-guide-to-logicappunit-framework-3l29",date:"2025-12-18",topic:"Testing Logic Apps"},
+  {title:"Logic App Standard: Cannot Turn Off Trigger Concurrency After It Was Enabled",url:"https://dev.to/imdj/logic-app-standard-cannot-turn-off-trigger-concurrency-after-it-was-enabled-3859",date:"2025-12-12",topic:"Logic Apps Internals"},
+  {title:"Testing Azure Functions: Unit Tests with Moq & Integration Tests with Testcontainers",url:"https://dev.to/imdj/testing-azure-functions-unit-tests-with-moq-integration-tests-with-testcontainers-43e6",date:"2025-12-07",topic:"Testing"},
+  {title:"Integration Testing with Real Databases Using Testcontainers",url:"https://dev.to/imdj/integration-testing-with-real-databases-using-testcontainers-2k62",date:"2025-12-07",topic:"Testing"},
+  {title:"Unit Testing ASP.NET Core Web API with Moq and xUnit",url:"https://dev.to/imdj/unit-testing-aspnet-core-web-api-with-moq-and-xunit-controllers-services-nci",date:"2025-12-07",topic:"Testing"},
+  {title:"Dockerizing Your Web API with SQL Server, Dapper, and FluentMigrator",url:"https://dev.to/imdj/dockerizing-your-web-api-with-sql-server-dapper-and-fluentmigrator-1jlb",date:"2025-12-06",topic:".NET / Web API"},
+  {title:"Automating Database Migrations with CI/CD",url:"https://dev.to/imdj/automating-database-migrations-with-cicd-5cdc",date:"2025-11-28",topic:".NET / Web API"},
+  {title:"Getting Started with Database Migrations using FluentMigrator",url:"https://dev.to/imdj/getting-started-with-database-migrations-using-fluentmigrator-1ch8",date:"2025-11-28",topic:".NET / Web API"},
+  {title:"Dockerizing Azure Service Bus Emulator and Test with Logic Apps",url:"https://dev.to/imdj/dockerizing-azure-service-bus-emulator-and-test-with-logic-apps-3lme",date:"2025-11-23",topic:"Local Dev & Docker"},
+  {title:"Logic Apps Local Dev Tools: Visual Walkthrough",url:"https://dev.to/imdj/logic-apps-local-dev-tools-visual-walkthrough-5gph",date:"2025-11-15",topic:"Local Dev & Docker"},
+  {title:"Debug Logic Apps in Docker Without the Hassle",url:"https://dev.to/imdj/debug-logic-apps-in-docker-without-the-hassle-3763",date:"2025-11-15",topic:"Local Dev & Docker"},
+  {title:"Containerizing Your Logic Apps In Your DevBox",url:"https://dev.to/imdj/containerizing-your-logic-apps-in-your-devbox-24c0",date:"2025-11-15",topic:"Local Dev & Docker"},
+  {title:"Building Logic Apps Locally with VS Code: HTTP, Blob, Queue & More",url:"https://dev.to/imdj/building-logic-apps-locally-with-vs-code-http-blob-queue-more-1agj",date:"2025-11-14",topic:"Local Dev & Docker"},
+  {title:"Auto-Capture in XSLT Debugger",url:"https://dev.to/imdj/auto-capture-in-xslt-debugger-5gb7",date:"2025-11-01",topic:"Data Mapper & XSLT"},
+  {title:"Debugging Logic Apps Data Mapper XSLT Locally",url:"https://dev.to/imdj/debugging-logic-apps-data-mapper-xslt-locally-1bie",date:"2025-10-31",topic:"Data Mapper & XSLT"},
+  {title:"Logic App Resubmission Behaviour Explained with clientTrackingId and sourceHistoryName",url:"https://dev.to/imdj/logic-app-resubmission-behaviour-explained-with-clienttrackingid-and-sourcehistoryname-22m5",date:"2025-10-27",topic:"Integrations & Connectivity"},
+  {title:"Debugging XSLT Made Easy in VS Code: .NET-Based Debugging for Logic Apps",url:"https://dev.to/imdj/debugging-xslt-made-easy-in-vs-code-56fi",date:"2025-10-25",topic:"Data Mapper & XSLT"},
+  {title:"The XSLT Debugging Problem for Logic Apps Developers",url:"https://dev.to/imdj/the-xslt-debugging-problem-for-logic-apps-developers-nba",date:"2025-10-25",topic:"Data Mapper & XSLT"},
+  {title:"Understanding xsl:message in XSLT",url:"https://dev.to/imdj/understanding-xslmessage-in-xslt-2nk4",date:"2025-10-25",topic:"Data Mapper & XSLT"},
+  {title:"Unified XJPath (Dansharp) Viewer",url:"https://dev.to/imdj/unified-xjpath-dansharp-viewer-c1o",date:"2025-10-24",topic:"Tools & Utilities"},
+  {title:"Syncing SharePoint with Azure Blob Storage using Logic Apps & Azure Functions for Azure AI Search",url:"https://dev.to/imdj/syncing-sharepoint-with-azure-blob-storage-using-logic-apps-azure-functions-for-azure-ai-search-250j",date:"2025-10-07",topic:"Integrations & Connectivity"},
+  {title:"Vibecoding with Codex & GitHub Copilot",url:"https://dev.to/imdj/vibecoding-with-codex-github-copilot-303l",date:"2025-10-04",topic:"Quick Reference"},
+  {title:"Build an MCP Server with ASP.NET Core",url:"https://dev.to/imdj/build-an-mcp-server-with-aspnet-core-18n",date:"2025-10-04",topic:"MCP"},
+  {title:"Azure Function as MCP Server",url:"https://dev.to/imdj/azure-function-as-mcp-server-12ep",date:"2025-10-02",topic:"MCP"},
+  {title:"Syncing Microsoft Fabric OneLake Using Logic Apps + OneLake APIs",url:"https://dev.to/imdj/syncing-microsoft-fabric-onelake-using-logic-apps-onelake-apis-1j8p",date:"2025-09-28",topic:"Integrations & Connectivity"},
+  {title:"Consume an MCP Endpoint from Azure Logic Apps — with an Agent Loop",url:"https://dev.to/imdj/consume-an-mcp-endpoint-from-azure-logic-apps-with-an-agent-loop-52jh",date:"2025-09-26",topic:"MCP"},
+  {title:"Exposing Logic Apps MCP Server via Azure API Management (APIM)",url:"https://dev.to/imdj/exposing-logic-apps-mcp-server-via-azure-api-management-apim-1l9",date:"2025-09-22",topic:"MCP"},
+  {title:"Fine-Grained Role Control for MCP Tools with APIM",url:"https://dev.to/imdj/fine-grained-role-control-for-mcp-tools-with-apim-2pn7",date:"2025-09-22",topic:"MCP"},
+  {title:"Fine-Grained Role Control for Logic App Standard Workflows with APIM + Easy Auth",url:"https://dev.to/imdj/fine-grained-role-control-for-logic-app-standard-workflows-with-apim-easy-auth-32ni",date:"2025-09-21",topic:"Security & Governance"},
+  {title:"Enabling Easy Auth for Azure Logic Apps (Standard)",url:"https://dev.to/imdj/enabling-easy-auth-for-azure-logic-apps-standard-1m2i",date:"2025-09-21",topic:"Security & Governance"},
+  {title:"Validate LogicApp MCP Server with BODMAS Rules",url:"https://dev.to/imdj/validate-logicapp-mcp-server-with-bodmas-rules-d44",date:"2025-09-21",topic:"MCP"},
+  {title:"LogicApp Autonomous Agents for Dynamic Tool Creation in LogicApp MCP Server",url:"https://dev.to/imdj/logicapp-autonomous-agents-for-dynamic-tool-creation-in-logicapp-mcp-server-4a3",date:"2025-09-20",topic:"MCP"},
+  {title:"Logic Apps ❤️ MCP — Expose Arithmetic Tools (Add & Subtract)",url:"https://dev.to/imdj/-logic-apps-mcp-expose-arithmetic-tools-add-subtract-4o24",date:"2025-09-20",topic:"MCP"},
+  {title:"Enabling a Logic App as an MCP Server",url:"https://dev.to/imdj/enabling-a-logic-app-as-an-mcp-server-34bp",date:"2025-09-19",topic:"MCP"},
+  {title:"Refund Decisions in Logic Apps: An AI Agent with Human-in-the-Loop",url:"https://dev.to/imdj/refund-decisions-in-logic-apps-an-ai-agent-with-human-in-the-loop-541l",date:"2025-09-19",topic:"AI & Agentic Patterns"},
+  {title:"Azure DevOps CI-CD for BizTalk with BTDF and Powershell",url:"https://dev.to/imdj/azure-devops-ci-cd-for-biztalk-with-btdf-and-powershell-2olf",date:"2025-09-19",topic:"BizTalk"},
+  {title:"Using Azure DevOps to Deploy WebAPI to App Service",url:"https://dev.to/imdj/using-azure-devops-deploy-webapi-in-azure-app-service-150j",date:"2025-09-19",topic:".NET / Web API"},
+  {title:"Azure DevOps for BizTalk CI-CD",url:"https://dev.to/imdj/azure-devops-for-biztalk-ci-cd-1nmd",date:"2025-09-19",topic:"BizTalk"},
+  {title:"Liquid Transformation As a Azure Function using DotLiquid",url:"https://dev.to/imdj/liquid-transformation-as-a-azure-function-using-dotliquid-knf",date:"2025-09-19",topic:"Azure Functions"},
+  {title:"Migrating BizTalk Transformation To Azure using Azure Function as an API",url:"https://dev.to/imdj/migrating-biztalk-transformation-to-azure-using-azure-function-as-an-api-46gd",date:"2025-09-19",topic:"Azure Functions"},
+  {title:"Connecting to On-Prem SQL Server using Azure Hybrid Connection",url:"https://dev.to/imdj/connecting-to-on-prem-sql-server-using-azure-hybrid-connection-4j06",date:"2025-09-19",topic:"Integrations & Connectivity"},
+  {title:"Exposing On-Premise BizTalk Service to Internet with Service Bus & WCF-Relay Adapter",url:"https://dev.to/imdj/exposing-on-premise-biztalk-service-to-internet-with-service-bus-wcf-relay-adapter-2ahc",date:"2025-09-19",topic:"BizTalk"},
+  {title:"Hybrid Adapters BizTalk Server 2016 | Event Hub & Service Bus Messaging Adapters",url:"https://dev.to/imdj/hybrid-adapters-biztalk-server-2016-event-hub-service-bus-messaging-adapters-23ig",date:"2025-09-19",topic:"BizTalk"},
+  {title:"Connecting On-Premise Service Using On-Premise Data Gateway",url:"https://dev.to/imdj/connecting-on-premise-service-using-on-premise-data-gateway-15ic",date:"2025-09-19",topic:"Integrations & Connectivity"},
+];
+
+const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const TOPIC_ORDER = ["MCP","Data Mapper & XSLT","Logic Apps Internals","Testing Logic Apps","Local Dev & Docker","Integrations & Connectivity","Security & Governance","Azure Functions","Testing",".NET / Web API","BizTalk","AI & Agentic Patterns","Tools & Utilities","Quick Reference"];
+
+let view = 'topic';
+let collapsed = {};
+let activeTopic = null;
+
+function fmtDate(d) {
+  const [y,m,day] = d.split('-');
+  return MONTHS[parseInt(m)-1] + ' ' + parseInt(day) + ', ' + y;
+}
+function fmtMonth(d) {
+  const [y,m] = d.split('-');
+  return MONTHS[parseInt(m)-1] + ' ' + y;
+}
+function monthKey(d) { return d.slice(0,7); }
+
+function setView(v) {
+  view = v;
+  activeTopic = null;
+  collapsed = {};
+  document.getElementById('btn-topic').classList.toggle('active', v==='topic');
+  document.getElementById('btn-date').classList.toggle('active', v==='date');
+  renderFilters();
+  render();
+}
+
+function setTopic(t) {
+  activeTopic = (activeTopic === t) ? null : t;
+  document.querySelectorAll('.topic-pill').forEach(el => {
+    el.classList.toggle('active', el.dataset.topic === activeTopic);
+  });
+  render();
+}
+
+function toggle(key) {
+  collapsed[key] = !collapsed[key];
+  render();
+}
+
+function filtered() {
+  const q = document.getElementById('search').value.toLowerCase();
+  return articles.filter(a =>
+    (!activeTopic || a.topic === activeTopic) &&
+    (a.title.toLowerCase().includes(q) || a.topic.toLowerCase().includes(q))
+  );
+}
+
+function renderFilters() {
+  const topics = TOPIC_ORDER.filter(t => articles.some(a => a.topic === t));
+  const extra = [...new Set(articles.map(a=>a.topic))].filter(t => !TOPIC_ORDER.includes(t));
+  const allTopics = [...topics, ...extra];
+  const el = document.getElementById('topic-filters');
+  if (view !== 'topic') { el.innerHTML = ''; return; }
+  el.innerHTML = allTopics.map(t =>
+    `<button class="topic-pill${activeTopic===t?' active':''}" data-topic="${t}" onclick="setTopic('${t.replace(/'/g,"\\'")}')">${t}</button>`
+  ).join('');
+}
+
+function makeSection(key, label, items, showTopic) {
+  const isOpen = collapsed[key] !== true;
+  let html = `<div class="section">
+    <div class="section-header" onclick="toggle('${key.replace(/'/g,"\\'")}')">
+      <span class="section-label">${label}</span>
+      <span class="section-badge">${items.length}</span>
+      <span class="chevron${isOpen?' open':''}">▶</span>
+    </div>`;
+  if (isOpen) {
+    html += '<div class="article-list">';
+    items.forEach(a => {
+      const meta = showTopic
+        ? `<span class="topic-tag">${a.topic}</span>`
+        : `<span class="article-meta">${fmtDate(a.date)}</span>`;
+      html += `<div class="article-item" onclick="window.open('${a.url}','_blank')">
+        <span class="article-title">${a.title}</span>
+        ${meta}
+      </div>`;
+    });
+    html += '</div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+function render() {
+  const list = filtered();
+  document.getElementById('result-count').textContent = list.length + ' / ' + articles.length;
+
+  if (list.length === 0) {
+    document.getElementById('content').innerHTML =
+      '<div class="empty"><div class="empty-icon">○</div>No articles match.</div>';
+    return;
+  }
+
+  let html = '';
+  if (view === 'topic') {
+    const groups = {};
+    list.forEach(a => { if (!groups[a.topic]) groups[a.topic] = []; groups[a.topic].push(a); });
+    const extra = Object.keys(groups).filter(t => !TOPIC_ORDER.includes(t));
+    const keys = [...TOPIC_ORDER.filter(t => groups[t]), ...extra];
+    keys.forEach(t => {
+      const items = [...groups[t]].sort((a,b) => b.date.localeCompare(a.date));
+      html += makeSection(t, t, items, false);
+    });
+  } else {
+    const groups = {};
+    list.forEach(a => { const k = monthKey(a.date); if (!groups[k]) groups[k] = []; groups[k].push(a); });
+    Object.keys(groups).sort((a,b)=>b.localeCompare(a)).forEach(k => {
+      const items = [...groups[k]].sort((a,b) => b.date.localeCompare(a.date));
+      html += makeSection(k, fmtMonth(items[0].date), items, true);
+    });
+  }
+
+  document.getElementById('content').innerHTML = html;
+}
+
+// Init
+document.getElementById('total-count').textContent = articles.length;
+document.getElementById('topic-count').textContent = [...new Set(articles.map(a=>a.topic))].length;
+document.getElementById('footer-updated').textContent = 'updated ' + fmtDate(articles[0].date);
+renderFilters();
+render();
+</script>
+</body>
+</html>
